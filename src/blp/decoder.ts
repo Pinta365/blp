@@ -1,7 +1,7 @@
-import { extractMipmaps, parseBlpHeader } from "./blp_parser.ts";
-import { decompressDXT1, decompressDXT3, decompressDXT5 } from "./dxt_decompressor.ts";
-import { decompressRAW1, decompressRAW3 } from "./palettized_decompressor.ts";
-import type { DecodedImage } from "./blp_types.ts";
+import { extractMipmaps, parseBlpHeader } from "./parser.ts";
+import { decompressDXT1, decompressDXT3, decompressDXT5 } from "../compression/dxt.ts";
+import { decompressRAW1, decompressRAW3 } from "../compression/palette.ts";
+import type { DecodedImage } from "../core/types.ts";
 
 /**
  * Decodes a BLP file from a Uint8Array and returns the main image as RGBA pixel data.
@@ -108,4 +108,4 @@ export function describeHeader(data: Uint8Array): string {
         lines.push(`  (DXT type is determined by preferredFormat and alphaSize fields)`);
     }
     return lines.join("\n");
-}
+} 

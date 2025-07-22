@@ -1,4 +1,5 @@
-import type { DecodedImage } from "./blp_types.ts";
+import type { DecodedImage } from "../core/types.ts";
+import { uint8ArrayToStream } from "../utils/streams.ts";
 
 /**
  * Writes a PNG chunk with the given type and data, including CRC.
@@ -41,20 +42,6 @@ function writeChunk(type: string, data: Uint8Array): Uint8Array {
     chunk[8 + length + 2] = (crc >>> 8) & 0xff;
     chunk[8 + length + 3] = crc & 0xff;
     return chunk;
-}
-
-/**
- * Converts a Uint8Array to a ReadableStream for streaming APIs.
- * @param u8 - The Uint8Array to convert.
- * @returns A ReadableStream of Uint8Array.
- */
-function uint8ArrayToStream(u8: Uint8Array): ReadableStream<Uint8Array> {
-    return new ReadableStream({
-        start(controller) {
-            controller.enqueue(u8);
-            controller.close();
-        },
-    });
 }
 
 /**
@@ -107,4 +94,4 @@ export async function encodeToPNG(image: DecodedImage): Promise<Uint8Array> {
     offset += idatChunk.length;
     png.set(iendChunk, offset);
     return png;
-}
+} 

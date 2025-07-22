@@ -1,4 +1,4 @@
-import type { DecodedImage } from "./blp_types.ts";
+import type { DecodedImage } from "../core/types.ts";
 
 /**
  * Decompresses a palettized (RAW1) BLP image to RGBA pixel data.
@@ -60,4 +60,4 @@ export function decompressRAW3(data: Uint8Array, width: number, height: number):
         out[i * 4 + 3] = data[i * 4 + 3]; // A
     }
     return { width, height, pixels: out };
-}
+} 

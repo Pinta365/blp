@@ -1,8 +1,5 @@
 import { assertEquals } from "@std/assert";
-import { extractMipmaps, parseBlpHeader } from "./src/blp_parser.ts";
-import { decompressRAW1, decompressRAW3 } from "./src/palettized_decompressor.ts";
-import { decompressDXT1, decompressDXT3, decompressDXT5 } from "./src/dxt_decompressor.ts";
-import { BLPColorEncoding } from "./src/blp_types.ts";
+import { extractMipmaps, parseBlpHeader, decompressRAW1, decompressRAW3, decompressDXT1, decompressDXT3, decompressDXT5, BLPColorEncoding } from "./mod.ts";
 
 // Helper to extract palette from a palettized BLP file
 function extractPalette(data: Uint8Array): Uint8Array {

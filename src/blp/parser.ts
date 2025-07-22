@@ -1,4 +1,4 @@
-import type { BLPColorEncoding, BLPHeader, BLPMipmapData } from "./blp_types.ts";
+import type { BLPColorEncoding, BLPHeader, BLPMipmapData } from "../core/types.ts";
 
 /**
  * Parses the header of a BLP2 file and returns a BLPHeader object.
@@ -76,4 +76,4 @@ export function extractMipmaps(data: Uint8Array, header: BLPHeader): BLPMipmapDa
         mipHeight = Math.max(1, mipHeight >> 1);
     }
     return mipmaps;
-}
+} 

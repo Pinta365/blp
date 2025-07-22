@@ -1,7 +1,7 @@
-../samples/1024x64_DXT5.blp: Success (DXT5; size=1024x64, compression=2, alphaSize=8, preferredFormat=7, mipmaps=1) -> ../samples/1024x64_DXT5.png
-../samples/256x256_DTX1.blp: Success (DXT1; size=256x256, compression=2, alphaSize=0, preferredFormat=0, mipmaps=9) -> ../samples/256x256_DTX1.png
-../samples/512x256_BGRA.blp: Success (RAW3 (uncompressed BGRA); size=512x256, compression=3, alphaSize=8, preferredFormat=8, mipmaps=1) -> ../samples/512x256_BGRA.png
-../samples/512x64_palette.blp: Success (RAW1 (palettized), alphaSize=8; size=512x64, compression=1, alphaSize=8, preferredFormat=8, mipmaps=10) -> ../samples/512x64_palette.png
-../samples/64x64_DXT1.blp: Success (DXT1; size=64x64, compression=2, alphaSize=0, preferredFormat=0, mipmaps=7) -> ../samples/64x64_DXT1.png
-../samples/64x64_DXT3.blp: Success (DXT3; size=64x64, compression=2, alphaSize=8, preferredFormat=1, mipmaps=7) -> ../samples/64x64_DXT3.png
-../samples/64x64_palette.blp: Success (RAW1 (palettized), alphaSize=8; size=64x64, compression=1, alphaSize=8, preferredFormat=8, mipmaps=7) -> ../samples/64x64_palette.png
+../samples/1024x64_DXT5.blp: Success (size=1024x64, compression=2, alphaSize=8, preferredFormat=7, mipmaps=1) -> ../samples/1024x64_DXT5.png
+../samples/256x256_DTX1.blp: Success (size=256x256, compression=2, alphaSize=0, preferredFormat=0, mipmaps=9) -> ../samples/256x256_DTX1.png
+../samples/512x256_BGRA.blp: Success (size=512x256, compression=3, alphaSize=8, preferredFormat=8, mipmaps=1) -> ../samples/512x256_BGRA.png
+../samples/512x64_palette.blp: Success (size=512x64, compression=1, alphaSize=8, preferredFormat=8, mipmaps=10) -> ../samples/512x64_palette.png
+../samples/64x64_DXT1.blp: Success (size=64x64, compression=2, alphaSize=0, preferredFormat=0, mipmaps=7) -> ../samples/64x64_DXT1.png
+../samples/64x64_DXT3.blp: Success (size=64x64, compression=2, alphaSize=8, preferredFormat=1, mipmaps=7) -> ../samples/64x64_DXT3.png
+../samples/64x64_palette.blp: Success (size=64x64, compression=1, alphaSize=8, preferredFormat=8, mipmaps=7) -> ../samples/64x64_palette.png

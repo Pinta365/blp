@@ -1,4 +1,4 @@
-import type { DecodedImage } from "./blp_types.ts";
+import type { DecodedImage } from "../core/types.ts";
 
 /**
  * Converts a 16-bit RGB565 color to 24-bit RGB888.
@@ -230,4 +230,4 @@ export function decompressDXT5(data: Uint8Array, width: number, height: number):
         }
     }
     return { width, height, pixels: out };
-}
+} 

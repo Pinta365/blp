@@ -110,4 +110,4 @@ export interface DecodedImage {
     height: number;
     /** The decoded image data as a flat array of RGBA pixel values. */
     pixels: Uint8Array; // RGBA
-}
+} 
