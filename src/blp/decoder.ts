@@ -108,4 +108,4 @@ export function describeHeader(data: Uint8Array): string {
         lines.push(`  (DXT type is determined by preferredFormat and alphaSize fields)`);
     }
     return lines.join("\n");
-} 
+}

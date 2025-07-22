@@ -230,4 +230,4 @@ export function decompressDXT5(data: Uint8Array, width: number, height: number):
         }
     }
     return { width, height, pixels: out };
-} 
+}

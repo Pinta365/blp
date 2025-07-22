@@ -1,8 +1,8 @@
 import { decodeBlpData, encodeToPNG } from "../mod.ts";
 
 // Paths
-const inputPath = "../samples/64x64_DXT1.blp";
-const outputPath = "../samples/simple_convert.png";
+const inputPath = "../samples/blp/64x64_DXT1.blp";
+const outputPath = "../samples/blp/output/simple_convert.png";
 
 // Read the BLP file
 const data = await Deno.readFile(inputPath);

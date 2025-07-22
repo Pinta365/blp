@@ -1,0 +1,98 @@
+PNG Export Performance Report
+=============================
+
+Generated: 2025-07-22T12:28:22.357Z
+Total formats tested: 68
+
+Format Comparison:
+==================
+
+Format                   Description                        Size      Time    Compression 
+------------------------------------------------------------------------------------------
+grayscale_1bit           Grayscale 1-bit (binary)           118 B     6.5ms   99.9%       
+custom_palette_2bit      Custom 4-color palette (2-bit)     174 B     13.0ms  99.8%       
+palette_1bit             Palette 1-bit (2 colors)           289 B     1.1ms   92.5%       
+grayscale_1bit           Grayscale 1-bit (binary)           302 B     <1ms    92.2%       
+grayscale_2bit           Grayscale 2-bit (4 levels)         537 B     <1ms    86.1%       
+palette_2bit             Palette 2-bit (4 colors)           554 B     1.3ms   85.7%       
+custom_palette_2bit      Custom 4-color palette (2-bit)     596 B     <1ms    84.6%       
+custom_palette_4bit      Custom 16-color palette (4-bit)    716 B     <1ms    81.5%       
+grayscale_4bit           Grayscale 4-bit (16 levels)        1.01 KB   <1ms    73.2%       
+palette_4bit             Palette 4-bit (16 colors)          1.12 KB   1.4ms   70.4%       
+custom_palette_4bit      Custom 16-color palette (4-bit)    1.3 KB    6.2ms   97.2%       
+grayscale_1bit           Grayscale 1-bit (binary)           2.11 KB   5.8ms   96.3%       
+grayscale_2bit           Grayscale 2-bit (4 levels)         2.19 KB   5.9ms   98.0%       
+grayscale_8bit           Grayscale 8-bit (256 levels)       2.29 KB   <1ms    39.3%       
+palette_1bit             Palette 1-bit (2 colors)           2.3 KB    38.9ms  97.9%       
+grayscale_alpha_8bit     Grayscale + Alpha 8-bit            2.42 KB   <1ms    35.8%       
+palette_1bit             Palette 1-bit (2 colors)           2.61 KB   24.5ms  95.5%       
+grayscale_16bit          Grayscale 16-bit (65536 levels)    2.94 KB   <1ms    22.1%       
+grayscale_alpha_16bit    Grayscale + Alpha 16-bit           2.97 KB   1.3ms   21.5%       
+custom_palette_4bit      Custom 16-color palette (4-bit)    3.04 KB   26.3ms  97.3%       
+palette_8bit             Palette 8-bit (256 colors)         3.05 KB   5.3ms   19.3%       
+custom_palette_2bit      Custom 4-color palette (2-bit)     3.25 KB   8.5ms   94.4%       
+rgba_8bit                RGBA 8-bit (default)               3.78 KB   <1ms    0.0%        
+rgb_8bit                 RGB 8-bit (no alpha)               3.99 KB   1.7ms   -5.7%       
+grayscale_1bit           Grayscale 1-bit (binary)           4.42 KB   3.1ms   90.3%       
+palette_1bit             Palette 1-bit (2 colors)           4.43 KB   10.7ms  90.3%       
+grayscale_2bit           Grayscale 2-bit (4 levels)         4.89 KB   2.2ms   89.3%       
+rgb_16bit                RGB 16-bit (high quality, no alpha)4.92 KB   1.4ms   -30.2%      
+grayscale_2bit           Grayscale 2-bit (4 levels)         4.93 KB   2.9ms   91.5%       
+palette_2bit             Palette 2-bit (4 colors)           5.17 KB   41.4ms  95.4%       
+rgba_16bit               RGBA 16-bit (high quality)         5.23 KB   1.5ms   -38.5%      
+custom_palette_2bit      Custom 4-color palette (2-bit)     5.32 KB   3.9ms   88.4%       
+palette_2bit             Palette 2-bit (4 colors)           5.35 KB   22.0ms  90.7%       
+custom_palette_4bit      Custom 16-color palette (4-bit)    6.48 KB   12.7ms  88.8%       
+grayscale_4bit           Grayscale 4-bit (16 levels)        6.9 KB    7.1ms   93.8%       
+grayscale_4bit           Grayscale 4-bit (16 levels)        7.05 KB   3.9ms   84.6%       
+palette_4bit             Palette 4-bit (16 colors)          9.07 KB   32.4ms  84.3%       
+palette_2bit             Palette 2-bit (4 colors)           9.92 KB   12.4ms  78.3%       
+grayscale_4bit           Grayscale 4-bit (16 levels)        10.2 KB   4.2ms   82.3%       
+palette_4bit             Palette 4-bit (16 colors)          13.79 KB  52.0ms  87.7%       
+palette_4bit             Palette 4-bit (16 colors)          19.15 KB  18.6ms  58.1%       
+palette_8bit             Palette 8-bit (256 colors)         19.62 KB  124.2ms 66.0%       
+grayscale_8bit           Grayscale 8-bit (256 levels)       21.6 KB   5.8ms   62.6%       
+grayscale_8bit           Grayscale 8-bit (256 levels)       28.32 KB  10.8ms  74.7%       
+grayscale_8bit           Grayscale 8-bit (256 levels)       29.95 KB  5.9ms   34.5%       
+grayscale_alpha_8bit     Grayscale + Alpha 8-bit            30.96 KB  10.0ms  46.4%       
+grayscale_alpha_8bit     Grayscale + Alpha 8-bit            33.04 KB  15.6ms  27.7%       
+grayscale_16bit          Grayscale 16-bit (65536 levels)    33.94 KB  15.6ms  25.7%       
+palette_8bit             Palette 8-bit (256 colors)         34.1 KB   36.9ms  69.6%       
+grayscale_16bit          Grayscale 16-bit (65536 levels)    35.54 KB  10.3ms  38.5%       
+palette_8bit             Palette 8-bit (256 colors)         36 KB     90.0ms  21.2%       
+grayscale_16bit          Grayscale 16-bit (65536 levels)    36.11 KB  15.5ms  67.8%       
+grayscale_alpha_16bit    Grayscale + Alpha 16-bit           38.84 KB  23.0ms  15.0%       
+grayscale_alpha_16bit    Grayscale + Alpha 16-bit           42.17 KB  13.4ms  27.0%       
+rgb_8bit                 RGB 8-bit (no alpha)               43.61 KB  15.7ms  4.6%        
+rgba_8bit                RGBA 8-bit (default)               45.7 KB   20.0ms  0.0%        
+rgb_16bit                RGB 16-bit (high quality, no alpha)50.17 KB  23.4ms  -9.8%       
+rgb_8bit                 RGB 8-bit (no alpha)               52.65 KB  13.9ms  8.9%        
+rgba_16bit               RGBA 16-bit (high quality)         52.7 KB   28.3ms  -15.3%      
+rgb_8bit                 RGB 8-bit (no alpha)               53.52 KB  23.9ms  52.3%       
+rgba_8bit                RGBA 8-bit (default)               57.78 KB  14.3ms  0.0%        
+rgb_16bit                RGB 16-bit (high quality, no alpha)62.44 KB  37.8ms  44.3%       
+rgb_16bit                RGB 16-bit (high quality, no alpha)69.37 KB  19.1ms  -20.1%      
+grayscale_alpha_8bit     Grayscale + Alpha 8-bit            73.77 KB  18.1ms  34.2%       
+rgba_16bit               RGBA 16-bit (high quality)         80.88 KB  22.8ms  -40.0%      
+grayscale_alpha_16bit    Grayscale + Alpha 16-bit           104.38 KB 22.0ms  6.9%        
+rgba_8bit                RGBA 8-bit (default)               112.09 KB 45.5ms  0.0%        
+rgba_16bit               RGBA 16-bit (high quality)         134.51 KB 43.2ms  -20.0%      
+
+Performance Analysis:
+====================
+Average file size: 23.3 KB
+Average encode time: 16.3ms
+Average compression: 51.8%
+
+Smallest file: grayscale_1bit (118 B)
+Fastest encode: grayscale_1bit (<1ms)
+Best compression: grayscale_1bit (99.9%)
+
+Recommendations:
+================
+• Use RGBA 8-bit for general purpose images with transparency
+• Use RGB 8-bit for images without transparency (25% smaller)
+• Use Grayscale 8-bit for black & white images (75% smaller)
+• Use Palette formats for images with limited colors
+• Use 16-bit formats only when high precision is required
+• Use 1-4 bit formats for simple graphics and icons

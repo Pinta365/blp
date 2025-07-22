@@ -76,4 +76,4 @@ export function extractMipmaps(data: Uint8Array, header: BLPHeader): BLPMipmapDa
         mipHeight = Math.max(1, mipHeight >> 1);
     }
     return mipmaps;
-} 
+}

@@ -10,4 +10,4 @@ export function uint8ArrayToStream(u8: Uint8Array): ReadableStream<Uint8Array> {
             controller.close();
         },
     });
-} 
+}

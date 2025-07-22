@@ -1,6 +1,6 @@
 import { decodeBlpData, encodeToPNG, extractMipmaps, parseBlpHeader } from "../mod.ts";
 
-const samplesDir = "../samples";
+const samplesDir = "../samples/blp";
 const summaryPath = "./batch_summary.txt";
 
 async function convertFile(filePath: string): Promise<string> {
@@ -10,7 +10,7 @@ async function convertFile(filePath: string): Promise<string> {
         const header = parseBlpHeader(data);
         const mipmaps = extractMipmaps(data, header);
         const png = await encodeToPNG(decoded);
-        const outPath = filePath.replace(/\.blp$/i, ".png");
+        const outPath = filePath.replace(samplesDir, samplesDir + "/output").replace(/\.blp$/i, ".png");
         await Deno.writeFile(outPath, png);
         const info = [
             `size=${header.width}x${header.height}`,

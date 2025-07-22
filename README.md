@@ -14,34 +14,44 @@ This library be run cross runtime agnostic (Deno, Node and Bun primary) but not 
   - Uncompressed (RAW3) images
 - Extraction of all mipmap levels and related metadata
 - Conversion of BLP image data to standard RGBA pixel buffers
-- **[Unstable/Dev] Utility to encode RGBA data to PNG (primarily for development/debugging; API may change)**
+- PNG export with support for multiple formats: RGBA, RGB, Grayscale, Palette, and Grayscale+Alpha with various bit depths (1, 2, 4, 8, 16-bit)
 
 ## Installing
 
 This package is published on [JSR](https://jsr.io/@pinta365/blp), the JavaScript Registry. You can install it with your preferred package manager:
 
-| Package Manager | Command                               |
-| :-------------- | :------------------------------------ |
-| Deno            | `deno add jsr:@pinta365/blp`            |
-| npm             | `npx jsr add @pinta365/blp`             |
-| Bun             | `bunx jsr add @pinta365/blp`            |
-| pnpm            | `pnpm i jsr:@pinta365/blp`              |
-| yarn            | `yarn add jsr:@pinta365/blp`            |
-| vlt             | `vlt install jsr:@pinta365/blp`         |
+| Package Manager | Command                         |
+| :-------------- | :------------------------------ |
+| Deno            | `deno add jsr:@pinta365/blp`    |
+| npm             | `npx jsr add @pinta365/blp`     |
+| Bun             | `bunx jsr add @pinta365/blp`    |
+| pnpm            | `pnpm i jsr:@pinta365/blp`      |
+| yarn            | `yarn add jsr:@pinta365/blp`    |
+| vlt             | `vlt install jsr:@pinta365/blp` |
 
 ## Usage Example
 
 The easiest way to decode a BLP file is with the `decodeBlpData` helper:
 
 ```ts
-import { decodeBlpData, encodeToPNG } from "@pinta365/blp";
+import { decodeBlpData, encodeToPNG, PNGColorType } from "@pinta365/blp";
 
-const data = await Deno.readFile("samples/64x64_DXT1.blp");
+const data = await Deno.readFile("samples/blp/64x64_DXT1.blp");
 const decoded = decodeBlpData(data); //The decoded main image as a DecodedImage (RGBA pixel data).
 
-//Optionally encode it to PNG and store it.
+// Basic PNG export (RGBA 8-bit)
 const png = await encodeToPNG(decoded);
 await Deno.writeFile("output.png", png);
+
+// Advanced PNG export with different formats
+const grayscalePNG = await encodeToPNG(decoded, {
+    colorType: PNGColorType.GRAYSCALE,
+    bitDepth: 8,
+});
+const rbgPNG = await encodeToPNG(decoded, {
+    colorType: PNGColorType.RGB,
+    bitDepth: 8,
+});
 ```
 
 Get header data.
@@ -72,6 +82,9 @@ console.log(header);
 See [`example/simple_convert.ts`](example/simple_convert.ts) for a minimal working example.
 
 For advanced use (e.g., batch conversion, header inspection), see [`example/batch_convert_samples.ts`](example/batch_convert_samples.ts).
+
+For PNG export examples with different formats, see [`example/png_export_demo.ts`](example/png_export_demo.ts) and
+[`PNG_EXPORT_GUIDE.md`](PNG_EXPORT_GUIDE.md).
 
 ---
 

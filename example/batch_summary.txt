@@ -1,7 +1,9 @@
-../samples/1024x64_DXT5.blp: Success (size=1024x64, compression=2, alphaSize=8, preferredFormat=7, mipmaps=1) -> ../samples/1024x64_DXT5.png
-../samples/256x256_DTX1.blp: Success (size=256x256, compression=2, alphaSize=0, preferredFormat=0, mipmaps=9) -> ../samples/256x256_DTX1.png
-../samples/512x256_BGRA.blp: Success (size=512x256, compression=3, alphaSize=8, preferredFormat=8, mipmaps=1) -> ../samples/512x256_BGRA.png
-../samples/512x64_palette.blp: Success (size=512x64, compression=1, alphaSize=8, preferredFormat=8, mipmaps=10) -> ../samples/512x64_palette.png
-../samples/64x64_DXT1.blp: Success (size=64x64, compression=2, alphaSize=0, preferredFormat=0, mipmaps=7) -> ../samples/64x64_DXT1.png
-../samples/64x64_DXT3.blp: Success (size=64x64, compression=2, alphaSize=8, preferredFormat=1, mipmaps=7) -> ../samples/64x64_DXT3.png
-../samples/64x64_palette.blp: Success (size=64x64, compression=1, alphaSize=8, preferredFormat=8, mipmaps=7) -> ../samples/64x64_palette.png
+../samples/blp/1024x64_DXT5.blp: Success (size=1024x64, compression=2, alphaSize=8, preferredFormat=7, mipmaps=1) -> ../samples/blp/output/1024x64_DXT5.png
+../samples/blp/256x256_DTX1.blp: Success (size=256x256, compression=2, alphaSize=0, preferredFormat=0, mipmaps=9) -> ../samples/blp/output/256x256_DTX1.png
+../samples/blp/512x256_BGRA.blp: Success (size=512x256, compression=3, alphaSize=8, preferredFormat=8, mipmaps=1) -> ../samples/blp/output/512x256_BGRA.png
+../samples/blp/512x64_palette.blp: Success (size=512x64, compression=1, alphaSize=8, preferredFormat=8, mipmaps=10) -> ../samples/blp/output/512x64_palette.png
+../samples/blp/64x64_DXT1.blp: Success (size=64x64, compression=2, alphaSize=0, preferredFormat=0, mipmaps=7) -> ../samples/blp/output/64x64_DXT1.png
+../samples/blp/64x64_DXT3.blp: Success (size=64x64, compression=2, alphaSize=8, preferredFormat=1, mipmaps=7) -> ../samples/blp/output/64x64_DXT3.png
+../samples/blp/64x64_palette.blp: Success (size=64x64, compression=1, alphaSize=8, preferredFormat=8, mipmaps=7) -> ../samples/blp/output/64x64_palette.png
+../samples/blp/cloud_wispy_mod.blp: Success (size=256x256, compression=2, alphaSize=8, preferredFormat=7, mipmaps=9) -> ../samples/blp/output/cloud_wispy_mod.png
+../samples/blp/facialupperhair05_01_hd.blp: Success (size=512x512, compression=1, alphaSize=8, preferredFormat=8, mipmaps=10) -> ../samples/blp/output/facialupperhair05_01_hd.png
