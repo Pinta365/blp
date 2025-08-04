@@ -16,11 +16,9 @@ export function decodeBlpData(data: Uint8Array): DecodedImage {
     if (mipmaps.length === 0) throw new Error("No mipmaps found in BLP file.");
     const main = mipmaps[0];
     if (header.compression === 1) {
-        // Palettized
         const palette = data.subarray(0x94, 0x94 + 1024);
         return decompressRAW1(main.data, main.width, main.height, palette, header.alphaSize);
     } else if (header.compression === 2) {
-        // DXT
         if (header.preferredFormat === 1) {
             return decompressDXT3(main.data, main.width, main.height);
         } else if (header.preferredFormat === 7) {
@@ -29,7 +27,6 @@ export function decodeBlpData(data: Uint8Array): DecodedImage {
             return decompressDXT1(main.data, main.width, main.height);
         }
     } else if (header.compression === 3) {
-        // Uncompressed
         return decompressRAW3(main.data, main.width, main.height);
     } else {
         throw new Error(`Unsupported BLP compression type: ${header.compression}`);
@@ -42,7 +39,7 @@ export function decodeBlpData(data: Uint8Array): DecodedImage {
  * @param data The full BLP file data as a Uint8Array.
  * @returns A string describing the header fields in plain language and technical detail.
  */
-export function describeHeader(data: Uint8Array): string {
+export function describeBLPHeader(data: Uint8Array): string {
     const header = parseBlpHeader(data);
     const compressionMap: Record<number, string> = {
         1: "Palettized (RAW1)",
@@ -75,7 +72,6 @@ export function describeHeader(data: Uint8Array): string {
         ? "DXT5 (if DXT)"
         : `${header.preferredFormat}`;
 
-    // DXT type detection
     let dxtType = "";
     let dxtExplain = "";
     if (header.compression === 2) {
