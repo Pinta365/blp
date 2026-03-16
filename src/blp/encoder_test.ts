@@ -1,8 +1,17 @@
 import { assertEquals, assertThrows } from "@std/assert";
-import { encodeToBLP, encodeToDXT1BLP, encodeToDXT3BLP, encodeToDXT5BLP, encodeToPaletteBLP, encodeToUncompressedBLP } from "./encoder.ts";
-import { BLPColorEncoding, BLPPixelFormat } from "../core/types.ts";
+import {
+    encodeToBLP,
+    encodeToBLP1,
+    encodeToDXT1BLP,
+    encodeToDXT3BLP,
+    encodeToDXT5BLP,
+    encodeToPaletteBLP,
+    encodeToUncompressedBLP,
+} from "./encoder.ts";
+import { BLPColorEncoding, BLPPixelFormat, isBLP1Header } from "../core/types.ts";
 import type { DecodedImage } from "../core/types.ts";
 import { decodeBlpData } from "./decoder.ts";
+import { parseBlpHeader } from "./parser.ts";
 import { ResizeMode } from "../utils/resize.ts";
 
 // Load a test image from BLP samples
@@ -11,19 +20,16 @@ async function loadBlpTestImage(): Promise<DecodedImage> {
     return decodeBlpData(data);
 }
 
-// Load a test image with transparency from BLP samples
 async function loadTransparentBlpImage(): Promise<DecodedImage> {
     const data = await Deno.readFile("samples/blp/64x64_DXT3.blp");
     return decodeBlpData(data);
 }
 
-// Load a palette-based BLP image
 async function loadPaletteBlpImage(): Promise<DecodedImage> {
     const data = await Deno.readFile("samples/blp/64x64_palette.blp");
     return decodeBlpData(data);
 }
 
-// Load a larger test image from BLP samples
 async function loadLargeBlpImage(): Promise<DecodedImage> {
     const data = await Deno.readFile("samples/blp/512x256_BGRA.blp");
     return decodeBlpData(data);
@@ -258,4 +264,69 @@ Deno.test("Encode to BLP - round-trip test", async () => {
     assertEquals(decoded.width, original.width);
     assertEquals(decoded.height, original.height);
     assertEquals(decoded.pixels.length, original.pixels.length);
+});
+
+// --- BLP1 encoder tests ---
+
+Deno.test("Encode to BLP1 - palette, 8-bit alpha", () => {
+    const pixels = new Uint8Array(4 * 4 * 4);
+    for (let i = 0; i < 4 * 4; i++) {
+        pixels[i * 4 + 0] = i * 16; // R
+        pixels[i * 4 + 1] = i * 8; // G
+        pixels[i * 4 + 2] = i * 4; // B
+        pixels[i * 4 + 3] = 200; // A
+    }
+    const image: DecodedImage = { width: 4, height: 4, pixels };
+    const blpData = encodeToBLP1(image);
+
+    assertEquals(blpData[0], 0x42); // 'B'
+    assertEquals(blpData[1], 0x4C); // 'L'
+    assertEquals(blpData[2], 0x50); // 'P'
+    assertEquals(blpData[3], 0x31); // '1'
+
+    const header = parseBlpHeader(blpData);
+    assertEquals(header.magic, "BLP1");
+    assertEquals(isBLP1Header(header), true);
+    if (isBLP1Header(header)) {
+        assertEquals(header.content, 1); // PALETTE
+        assertEquals(header.alphaBitDepth, 8);
+        assertEquals(header.width, 4);
+        assertEquals(header.height, 4);
+        assertEquals(header.extra, 5);
+    }
+});
+
+Deno.test("Encode to BLP1 - palette, no alpha", () => {
+    const pixels = new Uint8Array(4 * 4 * 4);
+    for (let i = 0; i < 4 * 4; i++) {
+        pixels[i * 4 + 0] = i * 16;
+        pixels[i * 4 + 1] = i * 8;
+        pixels[i * 4 + 2] = i * 4;
+        pixels[i * 4 + 3] = 255;
+    }
+    const image: DecodedImage = { width: 4, height: 4, pixels };
+    const blpData = encodeToBLP1(image, { alphaBitDepth: 0 });
+
+    const header = parseBlpHeader(blpData);
+    assertEquals(header.magic, "BLP1");
+    if (isBLP1Header(header)) {
+        assertEquals(header.alphaBitDepth, 0);
+    }
+});
+
+Deno.test("Encode to BLP1 - round-trip", () => {
+    const pixels = new Uint8Array(4 * 4 * 4);
+    for (let i = 0; i < 4 * 4; i++) {
+        pixels[i * 4 + 0] = i * 16;
+        pixels[i * 4 + 1] = i * 8;
+        pixels[i * 4 + 2] = i * 4;
+        pixels[i * 4 + 3] = 255;
+    }
+    const image: DecodedImage = { width: 4, height: 4, pixels };
+    const blpData = encodeToBLP1(image, { alphaBitDepth: 8 });
+
+    const decoded = decodeBlpData(blpData);
+    assertEquals(decoded.width, 4);
+    assertEquals(decoded.height, 4);
+    assertEquals(decoded.pixels.length, 4 * 4 * 4);
 });

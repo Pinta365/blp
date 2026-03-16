@@ -428,7 +428,7 @@ export async function encodeToPNG(
     // TODO: Implement compression level, does not respect compressionLevel option
     const cs = new CompressionStream("deflate");
     const compressed = await new Response(
-        uint8ArrayToStream(filteredData).pipeThrough(cs),
+        uint8ArrayToStream(filteredData).pipeThrough(cs as ReadableWritablePair<Uint8Array, Uint8Array>),
     ).arrayBuffer();
 
     const idatChunk = writeChunk("IDAT", new Uint8Array(compressed));
@@ -703,7 +703,7 @@ function validateCRC(data: Uint8Array, offset: number, length: number): boolean 
 async function decompressDeflate(data: Uint8Array): Promise<Uint8Array> {
     const ds = new DecompressionStream("deflate");
     const decompressed = await new Response(
-        new Blob([data]).stream().pipeThrough(ds),
+        new Blob([data as BlobPart]).stream().pipeThrough(ds as ReadableWritablePair<Uint8Array, Uint8Array>),
     ).arrayBuffer();
     return new Uint8Array(decompressed);
 }

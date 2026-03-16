@@ -9,6 +9,7 @@ export * from "./blp/encoder.ts";
 // Export compression algorithms
 export * from "./compression/dxt.ts";
 export * from "./compression/palette.ts";
+export * from "./compression/jpeg.ts";
 
 // Export format encoders and decoders
 export * from "./formats/png.ts";

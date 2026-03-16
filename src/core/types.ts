@@ -83,6 +83,40 @@ export interface BLPHeader {
      */
     mipSizes: number[];
 }
+/**
+ * Content/compression type for BLP1 files (uint32 at offset 0x04).
+ */
+export enum BLP1ContentType {
+    JPEG = 0,
+    PALETTE = 1,
+}
+
+/**
+ * Parsed header of a BLP1 file (Warcraft III, 156 bytes).
+ */
+export interface BLP1Header {
+    magic: "BLP1";
+    /** 0 = JPEG, 1 = Palette */
+    content: BLP1ContentType;
+    /** Alpha bit depth stored as uint32 (0, 1, 4, or 8). */
+    alphaBitDepth: number;
+    width: number;
+    height: number;
+    /** Purpose unclear; typically 4 or 5. */
+    extra: number;
+    /** 0 = no mipmaps, nonzero = mipmaps present. */
+    hasMipmaps: number;
+    mipOffsets: number[];
+    mipSizes: number[];
+}
+
+/** Discriminated union covering both BLP versions. */
+export type BlpHeader = BLPHeader | BLP1Header;
+
+/** Type guard — returns true when the header belongs to a BLP1 file. */
+export function isBLP1Header(header: BlpHeader): header is BLP1Header {
+    return header.magic === "BLP1";
+}
 
 /**
  * Represents a single mipmap level's data in a BLP file.

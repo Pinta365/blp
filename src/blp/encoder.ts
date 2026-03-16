@@ -1,5 +1,5 @@
 import type { DecodedImage } from "../core/types.ts";
-import { BLPColorEncoding, BLPPixelFormat } from "../core/types.ts";
+import { BLP1ContentType, BLPColorEncoding, BLPPixelFormat } from "../core/types.ts";
 import { compressDXT1, compressDXT3, compressDXT5 } from "../compression/dxt.ts";
 import { compressRAW1, compressRAW3, generatePalette } from "../compression/palette.ts";
 import { autoResizeToPowerOf2, ResizeMode } from "../utils/resize.ts";
@@ -315,4 +315,122 @@ export function encodeToUncompressedBLP(image: DecodedImage, generateMipmaps: bo
         compression: BLPColorEncoding.ARGB8888,
         generateMipmaps,
     });
+}
+
+// ---------------------------------------------------------------------------
+// BLP1 encoder
+// ---------------------------------------------------------------------------
+
+/**
+ * BLP1 encoding options.
+ * Only palette mode is supported (JPEG encode requires a raw-channel JPEG encoder).
+ */
+export interface BLP1EncodeOptions {
+    /** Alpha bit depth: 0, 1, 4, or 8 (default: 8). */
+    alphaBitDepth?: number;
+    /** Whether to generate mipmaps (default: false). */
+    generateMipmaps?: boolean;
+    /** Resizing mode for non-power-of-2 images (default: PAD_CENTER). */
+    resizeMode?: ResizeMode;
+    /** Prefer larger power-of-2 dimensions (default: true). */
+    preferLargerResize?: boolean;
+    /** Auto-resize non-power-of-2 images (default: true). */
+    autoResize?: boolean;
+    /** Fill color for padding (default: transparent). */
+    fillColor?: { r: number; g: number; b: number; a: number };
+}
+
+const DEFAULT_BLP1_OPTIONS: Required<BLP1EncodeOptions> = {
+    alphaBitDepth: 8,
+    generateMipmaps: false,
+    resizeMode: ResizeMode.PAD_CENTER,
+    preferLargerResize: true,
+    autoResize: true,
+    fillColor: { r: 0, g: 0, b: 0, a: 0 },
+};
+
+/**
+ * Encodes a DecodedImage to BLP1 palette format.
+ * @param image - The RGBA image to encode.
+ * @param options - BLP1 encoding options.
+ * @returns A Uint8Array containing the BLP1 file data.
+ */
+export function encodeToBLP1(image: DecodedImage, options: BLP1EncodeOptions = {}): Uint8Array {
+    const opts = { ...DEFAULT_BLP1_OPTIONS, ...options };
+
+    if ((image.width & (image.width - 1)) !== 0 || (image.height & (image.height - 1)) !== 0) {
+        if (opts.autoResize) {
+            console.log(`Auto-resizing image from ${image.width}x${image.height} to power-of-2 dimensions`);
+            image = autoResizeToPowerOf2(image, opts.resizeMode, opts.preferLargerResize, opts.fillColor);
+        } else {
+            throw new Error("Image dimensions must be powers of 2. Enable autoResize option to automatically resize the image.");
+        }
+    }
+
+    const mipmaps = opts.generateMipmaps ? generateMipmaps(image) : [image];
+
+    const BLP1_HEADER_SIZE = 0x9C; // 156 bytes
+    const PALETTE_SIZE = 1024; // 256 × 4
+    const dataStart = BLP1_HEADER_SIZE + PALETTE_SIZE;
+
+    const compressedMipmaps: Uint8Array[] = [];
+    for (const mip of mipmaps) {
+        compressedMipmaps.push(compressRAW1(mip, opts.alphaBitDepth));
+    }
+
+    const totalMipSize = compressedMipmaps.reduce((s, d) => s + d.length, 0);
+    const totalSize = dataStart + totalMipSize;
+    const buf = new Uint8Array(totalSize);
+
+    // Magic
+    buf[0] = 0x42;
+    buf[1] = 0x4C;
+    buf[2] = 0x50;
+    buf[3] = 0x31; // "BLP1"
+    // Content = PALETTE (1)
+    writeUint32(buf, 0x04, BLP1ContentType.PALETTE);
+    // AlphaBitDepth
+    writeUint32(buf, 0x08, opts.alphaBitDepth);
+    // Width, Height
+    writeUint32(buf, 0x0C, image.width);
+    writeUint32(buf, 0x10, image.height);
+    // Extra (WorldEdit convention = 5)
+    writeUint32(buf, 0x14, 5);
+    // HasMipmaps
+    writeUint32(buf, 0x18, opts.generateMipmaps ? 1 : 0);
+
+    // Mip offsets and sizes
+    let offset = dataStart;
+    for (let i = 0; i < 16; i++) {
+        if (i < compressedMipmaps.length) {
+            writeUint32(buf, 0x1C + i * 4, offset);
+            writeUint32(buf, 0x5C + i * 4, compressedMipmaps[i].length);
+            offset += compressedMipmaps[i].length;
+        } else {
+            writeUint32(buf, 0x1C + i * 4, 0);
+            writeUint32(buf, 0x5C + i * 4, 0);
+        }
+    }
+
+    // Palette at 0x9C: BGRX (same as BLP2 palette byte order)
+    const { palette } = generatePalette(image.pixels, 256);
+    const bgrxPalette = new Uint8Array(PALETTE_SIZE);
+    for (let i = 0; i < 256; i++) {
+        if (i * 3 + 2 < palette.length) {
+            bgrxPalette[i * 4 + 0] = palette[i * 3 + 2]; // B
+            bgrxPalette[i * 4 + 1] = palette[i * 3 + 1]; // G
+            bgrxPalette[i * 4 + 2] = palette[i * 3 + 0]; // R
+            bgrxPalette[i * 4 + 3] = 0; // padding
+        }
+    }
+    buf.set(bgrxPalette, BLP1_HEADER_SIZE);
+
+    // Mipmap data
+    offset = dataStart;
+    for (const mipData of compressedMipmaps) {
+        buf.set(mipData, offset);
+        offset += mipData.length;
+    }
+
+    return buf;
 }
